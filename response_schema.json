@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "description": "Response of livelihood-API.",
+    "description": "Response schema for livelihood-API.",
     "events": {
         "type": "array",
         "items": {
