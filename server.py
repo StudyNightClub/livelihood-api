@@ -1,16 +1,13 @@
 #!/bin/usr/env python3
 # encoding: utf-8
 
-from flask import Flask
-from flask import request
+from flask import Flask, request, json
 app = Flask(__name__)
-
-import json
 
 @app.route('/')
 def greet():
-    return json.dumps({'greet': 'Hello there.'})
+    return json.jsonify({'greet': 'Hello there.'})
 
-@app.route('/api')
-def api():
-    return json.dumps(request.args)
+@app.route('/events')
+def events():
+    return json.jsonify(request.args)

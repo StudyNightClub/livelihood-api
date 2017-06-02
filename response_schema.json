@@ -1,0 +1,98 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "description": "Response of livelihood-API.",
+    "events": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "descrption": "A single livelihood event.",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "description": "The ID of this event."
+                },
+                "govSn": {
+                    "type": "string",
+                    "description": "The serial number given by goverment."
+                },
+                "type": {
+                    "enum": ["water", "power", "road"],
+                    "description": "The type of this event."
+                },
+                "city": {
+                    "type": "string",
+                    "description": "The city of this event."
+                },
+                "district": {
+                    "type": "string",
+                    "description": "The district of this event."
+                },
+                "road": {
+                    "type": "string",
+                    "description": "The road of this event."
+                },
+                "detailAddr": {
+                    "type": "string",
+                    "description": "The rest of the address of this event."
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "The start date of the event in YYYY-MM-DD."
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "The start date of the event in YYYY-MM-DD."
+                },
+                "startTime": {
+                    "type": "string",
+                    "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
+                },
+                "endTime": {
+                    "type": "string",
+                    "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the event."
+                },
+                "updateTime": {
+                    "type": "string",
+                    "description": "The last time this event was updated.",
+                    "format": "date-time"
+                },
+                "affectedArea": {
+                    "type": "array",
+                    "description": "The affected area(s) and its coordinates.",
+                    "items": {
+                        "type": "object",
+                        "description": "An affected area.",
+                        "properties": {
+                            "shape": {
+                                "type": "string",
+                                "description": "The shape of this area.",
+                                "enum": ["point", "polygon"]
+                            },
+                            "coordinates": {
+                                "type": "array",
+                                "description": "The coordinates of this area.",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "twd97x": {
+                                            "type": "number",
+                                            "description": "The x coordinate in TWD97 format."
+                                        },
+                                        "twd97y": {
+                                            "type": "number",
+                                            "description": "The y coordinate in TWD97 format."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
