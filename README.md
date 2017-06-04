@@ -29,10 +29,10 @@ Add the following path to the base URL for API.
 For example, with the local API server described above, use
 `http://127.0.0.1:5000/events` to get recent livelihood events.
 
-| Path   | Description       |
-| ------ | ------------------|
-| `/`    | Greeting message. |
-| `/events` | Get livelihood events in JSON format. |
+Path   | Description
+------ | -----------
+`/`    | Greeting message.
+`/events` | Get livelihood events in JSON format.
 
 There're several parameters for `/events` you can use to get more specific results.
 

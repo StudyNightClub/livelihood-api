@@ -11,7 +11,7 @@
                     "type": "integer",
                     "description": "The ID of this event."
                 },
-                "govSn": {
+                "gov_sn": {
                     "type": "string",
                     "description": "The serial number given by goverment."
                 },
@@ -31,23 +31,23 @@
                     "type": "string",
                     "description": "The road of this event."
                 },
-                "detailAddr": {
+                "detail_addr": {
                     "type": "string",
                     "description": "The rest of the address of this event."
                 },
-                "startDate": {
+                "start_date": {
                     "type": "string",
                     "description": "The start date of the event in YYYY-MM-DD."
                 },
-                "endDate": {
+                "end_date": {
                     "type": "string",
                     "description": "The start date of the event in YYYY-MM-DD."
                 },
-                "startTime": {
+                "start_time": {
                     "type": "string",
                     "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
                 },
-                "endTime": {
+                "end_time": {
                     "type": "string",
                     "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
                 },
@@ -55,12 +55,12 @@
                     "type": "string",
                     "description": "The description of the event."
                 },
-                "updateTime": {
+                "update_time": {
                     "type": "string",
                     "description": "The last time this event was updated.",
                     "format": "date-time"
                 },
-                "affectedArea": {
+                "affected_areas": {
                     "type": "array",
                     "description": "The affected area(s) and its coordinates.",
                     "items": {
@@ -78,11 +78,11 @@
                                 "items": {
                                     "type": "object",
                                     "properties": {
-                                        "twd97x": {
+                                        "twd97_x": {
                                             "type": "number",
                                             "description": "The x coordinate in TWD97 format."
                                         },
-                                        "twd97y": {
+                                        "twd97_y": {
                                             "type": "number",
                                             "description": "The y coordinate in TWD97 format."
                                         }
