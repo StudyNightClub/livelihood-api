@@ -7,7 +7,8 @@ Currently it's just a dummy.
 ## Requirements
 
 * Python 3
-* Flask >= 0.12
+* Flask 0.12
+* SqlAlchemy 1.1
 
 ## Run
 
