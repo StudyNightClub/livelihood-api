@@ -1,7 +1,11 @@
 #!/bin/usr/env python3
 # encoding: utf-8
 
+import os
 from flask import Flask, request, json
+import dbconnector
+from event import Event, Area, Coordinate
+
 app = Flask(__name__)
 
 class EventsParameters:
@@ -10,6 +14,12 @@ class EventsParameters:
 SCHEMA_FILE = 'response_schema.json'
 with open(SCHEMA_FILE, 'r') as fin:
     SCHEMA = json.load(fin)
+
+db_location = os.environ.get('LIVELIHOOD_DB')
+if db_location:
+    dbconnector.connect_to_db(db_location)
+else:
+    dbconnector.connect_to_inmemory_db()
 
 @app.route('/')
 def greet():
@@ -21,5 +31,11 @@ def events():
     if metadata == 1:
         return json.jsonify(SCHEMA)
 
-    return json.jsonify(request.args)
+    session = dbconnector.Session()
+
+    result = []
+    for e in session.query(Event):
+        result.append(e.to_dict())
+
+    return json.jsonify(result)
 

@@ -15,8 +15,13 @@ Currently it's just a dummy.
 For development, you can host the API server on your own machine.
 
     $ export FLASK_APP=server.py
+    $ export LIVELIHOOD_DB=<your_db_url>
     $ flask run
       * Running on http://127.0.0.1:5000
+
+Note that your should replace `<your_db_url>` with real value. For example:
+`sqlite:///livelihood.db`. If `LIVELIHOOD_DB` variable isn't set, the server
+will use an empty in-memory DB as substitute.
 
 Now the server should be hosted on http://127.0.0.1:5000
 (might be slightly different depending on your environment).
