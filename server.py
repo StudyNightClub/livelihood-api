@@ -9,7 +9,7 @@ import dbconnector
 from event import Event, Area, Coordinate
 
 app = Flask(__name__)
-VERSION = 'v1.0.0'
+VERSION = 'v1.0.1'
 
 class EventsParameters:
     METADATA = 'metadata'
