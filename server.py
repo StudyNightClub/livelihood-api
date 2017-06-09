@@ -39,15 +39,34 @@ def events():
 
     session = dbconnector.Session()
 
-    event_type = request.args.get(EventsParameters.TYPE, "all", str)
-    if event_type == 'all':
-        types = ['Water', 'Power', 'Road']
-    else:
-        types = [t.title() for t in event_type.split(',')]
+    # The base of the query command
+    query = session.query(Event)
+
+    # "type" parameter
+    types = get_event_types()
+    if types:
+        query = query.filter(Event.type.in_(types))
+
+    # "city" parameter
+    city = request.args.get(EventsParameters.CITY)
+    if city:
+        query = query.filter(Event.city == city)
+
+    # "district" parameter
+    district = request.args.get(EventsParameters.DISTRICT)
+    if district:
+        query = query.filter(Event.district == district)
 
     result = []
-    for e in session.query(Event).filter(Event.type.in_(types)):
+    for e in query:
         result.append(e.to_dict())
 
     return json.jsonify(result)
 
+def get_event_types():
+    event_type = request.args.get(EventsParameters.TYPE, "all", str)
+    if event_type == 'all':
+        types = None
+    else:
+        types = [t.title() for t in event_type.split(',')]
+    return types
