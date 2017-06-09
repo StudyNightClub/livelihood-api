@@ -9,6 +9,7 @@ import dbconnector
 from event import Event, Area, Coordinate
 
 app = Flask(__name__)
+VERSION = 'v1.0.0'
 
 class EventsParameters:
     METADATA = 'metadata'
@@ -31,7 +32,7 @@ else:
 
 @app.route('/')
 def greet():
-    return json.jsonify({'greet': 'Hello there.'})
+    return json.jsonify({'greetings': 'You\'re accessing livelihood API version {}'.format(VERSION)})
 
 @app.route('/events')
 def show_events():

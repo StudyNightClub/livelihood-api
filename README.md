@@ -1,4 +1,4 @@
-# Livelihood API
+# Livelihood API v1.0.0
 
 API server for our livelihood data.
 
