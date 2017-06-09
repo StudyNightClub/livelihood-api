@@ -3,6 +3,7 @@
 
 import os
 from flask import Flask, request, json
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 import dbconnector
 from event import Event, Area, Coordinate
 
@@ -32,7 +33,7 @@ def greet():
     return json.jsonify({'greet': 'Hello there.'})
 
 @app.route('/events')
-def events():
+def show_events():
     metadata = request.args.get(EventsParameters.METADATA, 0, int)
     if metadata == 1:
         return json.jsonify(SCHEMA)
@@ -65,6 +66,23 @@ def events():
         result.append(e.to_dict(fields))
 
     return json.jsonify(result)
+
+@app.route('/events/<string:event_id>')
+def show_single_event(event_id):
+    session = dbconnector.Session()
+
+    query = session.query(Event).filter(Event.id == event_id)
+    fields = get_fields()
+
+    try:
+        event = query.one()
+        return json.jsonify(event.to_dict(fields))
+    except MultipleResultsFound:
+        print('Multiple event with ID {}, this shouldn\'t happen.'.format(event_id))
+    except NoResultFound:
+        print('No event with ID {}.'.format(event_id))
+
+    return ''
 
 def get_event_types():
     event_type = request.args.get(EventsParameters.TYPE, "all", str)

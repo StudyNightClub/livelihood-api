@@ -2,13 +2,17 @@
 
 API server for our livelihood data.
 
-Currently it's just a dummy.
+Currently, the `before` and `after` parameters are useless, other stuff should work.
 
 ## Requirements
 
 * Python 3
 * Flask 0.12
 * SqlAlchemy 1.1
+
+```
+$ pip3 install flask sqlalchemy
+```
 
 ## Run
 
@@ -39,6 +43,7 @@ Path   | Description
 ------ | -----------
 `/`    | Greeting message.
 `/events` | Get livelihood events in JSON format.
+`/events/<event_id>` | Get single livelihood event in JSON format.
 
 There're several parameters for `/events` you can use to get more specific results.
 
@@ -51,5 +56,7 @@ Parameter | Acceptable Values | Description | Example
 `city` | City name | If specified, only the events of the city will be returned. | `/events?city=臺北市`
 `district` | District name | If specified, only the events of the district will be returned. | `/events?city=臺北市&district=大安區`
 `fields` | Any field name of the event, comma separated. | If specified, only the corresponding fields will be returned. Note that the `id` field will always be returned. | `/events?fields=type,start_date,end_date`
+
+For single event, only the `fields` parameter is available.
 
 The result will be a JSON of [this schema](response_schema.json).
