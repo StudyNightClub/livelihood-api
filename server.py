@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import os
+from datetime import datetime
 from flask import Flask, request, json
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 import dbconnector
@@ -58,6 +59,16 @@ def show_events():
     if district:
         query = query.filter(Event.district == district)
 
+    # "after" parameter
+    after = parse_date(request.args.get(EventsParameters.AFTER))
+    if after:
+        query = query.filter(Event.end_date > after)
+
+    # "before" parameter
+    before = parse_date(request.args.get(EventsParameters.BEFORE))
+    if before:
+        query = query.filter(Event.start_date < before)
+
     # "fields" parameter
     fields = get_fields()
 
@@ -97,4 +108,14 @@ def get_fields():
     if fields:
         return [f.lower() for f in fields.split(',')]
     else:
+        return None
+
+def parse_date(date):
+    if not date:
+        return None
+
+    try:
+        return datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        print('Invalid date format {}'.format(date))
         return None

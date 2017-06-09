@@ -2,8 +2,6 @@
 
 API server for our livelihood data.
 
-Currently, the `before` and `after` parameters are useless, other stuff should work.
-
 ## Requirements
 
 * Python 3
@@ -49,7 +47,7 @@ There're several parameters for `/events` you can use to get more specific resul
 
 Parameter | Acceptable Values | Description | Example
 --------- | ----------------- | ----------- | -------
-`metadata` | `0` or `1` | If `metadata=1`, the response schema will be returned instead of the actual events, and the rest of the parameters will be ignored. Default: `0`. | `events?metadata=1`
+`metadata` | `0` or `1` | If `metadata=1`, the response schema will be returned instead of the actual events, and the rest of the parameters will be ignored. Default: `0`. | `/events?metadata=1`
 `type` | `water`, `power`, `road`, and `all`. Comma separated. | The type of events you wish to query. Default: `all`. | `/events?type=water,power`
 `after` | Date in `YYYY-MM-DD` | Events that ends before this date will be filtered out. Default: current date.| `/events?after=2017-06-01`
 `before` | Date in `YYYY-MM-DD` | If specified, events that starts after this date will be filtered out. | `/events?before=2017-06-02`
