@@ -15,6 +15,10 @@ Base = declarative_base()
 class Event(Base):
     __tablename__ = 'event'
 
+    _FIELDS = set(['id', 'gov_sn', 'type', 'city', 'district', 'road',
+            'detail_addr', 'start_date', 'end_date', 'start_time', 'end_time',
+            'description', 'update_time', 'affected_areas'])
+
     # columns
     id = Column('event_id', String, primary_key=True)
     gov_sn = Column('gov_serial_number', String)
@@ -34,23 +38,23 @@ class Event(Base):
     # relationships
     areas = relationship('Area', back_populates='event')
 
-    def to_dict(self):
-        return {
-                   'id': self.id,
-                   'gov_sn': self.gov_sn,
-                   'type': self.type,
-                   'city': self.city,
-                   'district': self.district,
-                   'road': self.road,
-                   'detail_addr': self.detail_addr,
-                   'start_date': self.start_date,
-                   'end_date': self.end_date,
-                   'start_time': self.start_time,
-                   'end_time': self.end_time,
-                   'description': self.description,
-                   'update_time': self.update_time,
-                   'affected_areas': [a.to_dict() for a in self.areas]
-               }
+    def to_dict(self, fields=None):
+        if fields:
+            fields = set(filter(self._FIELDS.__contains__, fields))
+            fields.add('id')
+        else:
+            fields = list(self._FIELDS)
+
+        result = {}
+        for f in fields:
+            result[f] = self.get_field(f)
+        return result
+
+    def get_field(self, field):
+        if field == 'affected_areas':
+            return [a.to_dict() for a in self.areas]
+        else:
+            return self.__dict__[field]
 
 class Area(Base):
     __tablename__ = 'event_coord_group'

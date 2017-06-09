@@ -40,7 +40,7 @@ def events():
     session = dbconnector.Session()
 
     # The base of the query command
-    query = session.query(Event)
+    query = session.query(Event).filter(Event.update_status == 'new')
 
     # "type" parameter
     types = get_event_types()
@@ -57,9 +57,12 @@ def events():
     if district:
         query = query.filter(Event.district == district)
 
+    # "fields" parameter
+    fields = get_fields()
+
     result = []
     for e in query:
-        result.append(e.to_dict())
+        result.append(e.to_dict(fields))
 
     return json.jsonify(result)
 
@@ -70,3 +73,10 @@ def get_event_types():
     else:
         types = [t.title() for t in event_type.split(',')]
     return types
+
+def get_fields():
+    fields = request.args.get(EventsParameters.FIELDS)
+    if fields:
+        return [f.lower() for f in fields.split(',')]
+    else:
+        return None

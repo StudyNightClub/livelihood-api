@@ -50,6 +50,6 @@ Parameter | Acceptable Values | Description | Example
 `before` | Date in `YYYY-MM-DD` | If specified, events that starts after this date will be filtered out. | `/events?before=2017-06-02`
 `city` | City name | If specified, only the events of the city will be returned. | `/events?city=臺北市`
 `district` | District name | If specified, only the events of the district will be returned. | `/events?city=臺北市&district=大安區`
-`fields` | Any field name of the event, comma separated. | If specified, only the corresponding fields will be returned. | `/events?fields=type,startDate,endDate`
+`fields` | Any field name of the event, comma separated. | If specified, only the corresponding fields will be returned. | `/events?fields=type,start_date,end_date`
 
 The result will be a JSON of [this schema](response_schema.json).
