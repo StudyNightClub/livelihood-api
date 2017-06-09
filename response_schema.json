@@ -45,11 +45,11 @@
                 },
                 "start_time": {
                     "type": "string",
-                    "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
+                    "description": "The start time of the event every day between start_date and end_date. In HH:MM:SS."
                 },
                 "end_time": {
                     "type": "string",
-                    "description": "The start time of the event every day between startDate and endDate. In HH:MM:SS."
+                    "description": "The start time of the event every day between start_date and end_date. In HH:MM:SS."
                 },
                 "description": {
                     "type": "string",
@@ -57,8 +57,7 @@
                 },
                 "update_time": {
                     "type": "string",
-                    "description": "The last time this event was updated.",
-                    "format": "date-time"
+                    "description": "The last time this event was updated in ISO 8601 format (without timezone)."
                 },
                 "affected_areas": {
                     "type": "array",
