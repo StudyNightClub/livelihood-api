@@ -10,6 +10,12 @@ app = Flask(__name__)
 
 class EventsParameters:
     METADATA = 'metadata'
+    TYPE = 'type'
+    AFTER = 'after'
+    BEFORE = 'before'
+    CITY = 'city'
+    DISTRICT = 'district'
+    FIELDS = 'fields'
 
 SCHEMA_FILE = 'response_schema.json'
 with open(SCHEMA_FILE, 'r') as fin:
@@ -33,8 +39,14 @@ def events():
 
     session = dbconnector.Session()
 
+    event_type = request.args.get(EventsParameters.TYPE, "all", str)
+    if event_type == 'all':
+        types = ['Water', 'Power', 'Road']
+    else:
+        types = [t.title() for t in event_type.split(',')]
+
     result = []
-    for e in session.query(Event):
+    for e in session.query(Event).filter(Event.type.in_(types)):
         result.append(e.to_dict())
 
     return json.jsonify(result)
