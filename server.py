@@ -11,7 +11,7 @@ from event import Event, Area, Coordinate
 app = Flask(__name__)
 VERSION = 'v2.0.0'
 
-class EventsParameters:
+class EventsParameters(object):
     METADATA = 'metadata'
     TYPE = 'type'
     AFTER = 'after'
@@ -19,6 +19,7 @@ class EventsParameters:
     CITY = 'city'
     DISTRICT = 'district'
     FIELDS = 'fields'
+    IDS = 'ids'
 
 SCHEMA_FILE = 'response_schema.json'
 with open(SCHEMA_FILE, 'r') as fin:
@@ -44,6 +45,12 @@ def show_events():
 
     # The base of the query command
     query = session.query(Event).filter(Event.update_status == 'new')
+
+    # "ids" parameter
+    ids = request.args.get(EventsParameters.IDS)
+    ids = split_csv(ids)
+    if ids:
+        query = query.filter(Event.id.in_(ids))
 
     # "type" parameter
     types = get_event_types()
@@ -97,17 +104,18 @@ def show_single_event(event_id):
     return ''
 
 def get_event_types():
-    event_type = request.args.get(EventsParameters.TYPE, "all", str)
-    if event_type == 'all':
+    types = request.args.get(EventsParameters.TYPE, None, str)
+    if types == 'all':
         types = None
-    else:
-        types = [t.title() for t in event_type.split(',')]
-    return types
+    return split_csv(types)
 
 def get_fields():
     fields = request.args.get(EventsParameters.FIELDS)
-    if fields:
-        return [f.lower() for f in fields.split(',')]
+    return split_csv(fields)
+
+def split_csv(value):
+    if value:
+        return [t.lower() for t in value.split(',')]
     else:
         return None
 
