@@ -7,7 +7,6 @@ API server for our livelihood data.
 * Python 3
 * Flask 0.12
 * SqlAlchemy 1.1
-* gunicorn 19.7.1 (optional)
 
 ```
 $ pip3 install -r requirements.txt
