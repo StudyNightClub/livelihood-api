@@ -1,5 +1,4 @@
 # encoding: utf-8
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import Float
@@ -9,6 +8,7 @@ from sqlalchemy import Time
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
@@ -80,8 +80,8 @@ class Coordinate(Base):
 
     # columns
     id = Column('coordinate_id', String, primary_key=True)
-    twd97_x = Column('x_coordinate', Float)
-    twd97_y = Column('y_coordinate', Float)
+    wgs84_latitude = Column('latitude', Float)
+    wgs84_longitude = Column('longitude', Float)
     area_id = Column('group_id', String, ForeignKey('event_coord_group.group_id'))
 
     # relationships
@@ -89,6 +89,6 @@ class Coordinate(Base):
 
     def to_dict(self):
         return {
-                   'twd97_x': self.twd97_x,
-                   'twd97_y': self.twd97_y
+                   'wgs84_latitude': self.wgs84_latitude,
+                   'wgs84_longitude': self.wgs84_longitude
                }
