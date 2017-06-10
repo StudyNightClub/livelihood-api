@@ -77,13 +77,13 @@
                                 "items": {
                                     "type": "object",
                                     "properties": {
-                                        "twd97_x": {
+                                        "wgs84_latitude'": {
                                             "type": "number",
-                                            "description": "The x coordinate in TWD97 format."
+                                            "description": "The latitude in WGS84 format."
                                         },
-                                        "twd97_y": {
+                                        "wgs84_longitude": {
                                             "type": "number",
-                                            "description": "The y coordinate in TWD97 format."
+                                            "description": "The lognitude in WGS84 format."
                                         }
                                     }
                                 }
