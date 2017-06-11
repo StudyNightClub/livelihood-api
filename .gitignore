@@ -102,3 +102,7 @@ ENV/
 
 # vim swap files
 *.swp
+
+*.zip
+*.db
+wkotgnews

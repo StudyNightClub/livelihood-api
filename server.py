@@ -4,7 +4,11 @@
 import os
 from datetime import datetime
 from flask import Flask, request, json
+from http import HTTPStatus
+from pathlib import Path
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
+from livelihood_database import livelihood
+
 import dbconnector
 from event import Event, Area, Coordinate
 
@@ -25,11 +29,17 @@ SCHEMA_FILE = 'response_schema.json'
 with open(SCHEMA_FILE, 'r') as fin:
     SCHEMA = json.load(fin)
 
-db_location = os.environ.get('LIVELIHOOD_DB')
-if db_location:
-    dbconnector.connect_to_db(db_location)
+DB_URL = os.environ.get('LIVELIHOOD_DB')
+DB_PATH = DB_URL.replace('sqlite:///', '')
+if not Path(DB_PATH).is_file():
+    livelihood.create_database(DB_PATH)
+
+if DB_URL:
+    dbconnector.connect_to_db(DB_URL)
 else:
     dbconnector.connect_to_inmemory_db()
+
+UPDATE_TOKEN = os.environ.get('UPDATE_TOKEN')
 
 @app.route('/')
 def greet():
@@ -102,6 +112,16 @@ def show_single_event(event_id):
         print('No event with ID {}.'.format(event_id))
 
     return ''
+
+@app.route('/update_db', methods=['POST'])
+def update_db():
+    token = request.args.get('token')
+    if token == UPDATE_TOKEN:
+        livelihood.import_all(DB_PATH)
+        return json.jsonify({'action': 'success'})
+    else:
+        return json.jsonify({'error': 'Unauthorized action'}), HTTPStatus.UNAUTHORIZED
+
 
 def get_event_types():
     types = request.args.get(EventsParameters.TYPE, None, str)

@@ -7,6 +7,7 @@ API server for our livelihood data.
 * Python 3
 * Flask 0.12
 * SqlAlchemy 1.1
+* [livelihood-database](https://github.com/StudyNightClub/livelihood-database) 2.0.0
 
 ```
 $ pip3 install -r requirements.txt
@@ -32,18 +33,19 @@ Use the URL shown in the "Running on" line as the base URL for API.
 
 ## Usage
 
-Add the following path to the base URL for API.
+### Greet
 
-For example, with the local API server described above, use
-`http://127.0.0.1:5000/events` to get recent livelihood events.
+    $ curl -X GET <api_url>/
 
-Path   | Description
------- | -----------
-`/`    | Greeting message.
-`/events` | Get livelihood events in JSON format.
-`/events/<event_id>` | Get single livelihood event in JSON format.
+A greeting message and version of the current engine will be returned.
 
-There're several parameters for `/events` you can use to get more specific results.
+### Get events
+
+    $ curl -X GET <api_url>/events
+
+A list of events will be returned in a JSON array of [this schema](response_schema.json).
+
+There's several parameters for getting more specific results.
 
 Parameter | Acceptable Values | Description | Example
 --------- | ----------------- | ----------- | -------
@@ -56,6 +58,20 @@ Parameter | Acceptable Values | Description | Example
 `fields` | Any field name of the event, comma separated. | If specified, only the corresponding fields will be returned. Note that the `id` field will always be returned. | `/events?fields=type,start_date,end_date`
 `ids` | Event IDs, comma separated. | Only consider event(s) with specified ID(s). | `/events?ids=fef834824db111e7a1fc,fefd9fb24db111e7a1fc
 
-For single event, only the `fields` parameter is available.
+### Get single event
 
-The result will be a JSON of [this schema](response_schema.json).
+    $ curl -X GET <api_url>/events/<event_id>
+
+An event of the provided ID will be returned. If the ID doesn't match any
+event, an empty string will be returned.
+
+The `fields` parameter described above is still available.
+
+### Trigger database udpate
+
+    $ curl -X POST <api_url>/update_db?token=<token>
+
+Update DB data using livelihood-database package.
+
+For this action to work, the token must match the one in environment
+variables of the server.
