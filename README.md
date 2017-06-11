@@ -7,7 +7,6 @@ API server for our livelihood data.
 * Python 3
 * Flask 0.12
 * SqlAlchemy 1.1
-* [livelihood-database](https://github.com/StudyNightClub/livelihood-database) 2.0.0
 
 ```
 $ pip3 install -r requirements.txt
@@ -66,12 +65,3 @@ An event of the provided ID will be returned. If the ID doesn't match any
 event, an empty string will be returned.
 
 The `fields` parameter described above is still available.
-
-### Trigger database udpate
-
-    $ curl -X POST <api_url>/update_db?token=<token>
-
-Update DB data using livelihood-database package.
-
-For this action to work, the token must match the one in environment
-variables of the server.
