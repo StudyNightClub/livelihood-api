@@ -55,7 +55,7 @@ Parameter | Acceptable Values | Description | Example
 `city` | City name | If specified, only the events of the city will be returned. | `/events?city=臺北市`
 `district` | District name | If specified, only the events of the district will be returned. | `/events?city=臺北市&district=大安區`
 `fields` | Any field name of the event, comma separated. | If specified, only the corresponding fields will be returned. Note that the `id` field will always be returned. | `/events?fields=type,start_date,end_date`
-`ids` | Event IDs, comma separated. | Only consider event(s) with specified ID(s). | `/events?ids=fef834824db111e7a1fc,fefd9fb24db111e7a1fc
+`ids` | Event IDs, comma separated. | Only consider event(s) with specified ID(s). | `/events?ids=aaa,bbb`
 
 ### Get single event
 
