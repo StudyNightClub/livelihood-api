@@ -3,7 +3,7 @@
 
 import os
 from datetime import datetime
-from flask import Flask, request, json
+from flask import Flask, request, json, send_file
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import dbconnector
@@ -22,7 +22,7 @@ class EventsParameters(object):
     FIELDS = 'fields'
     IDS = 'ids'
 
-SCHEMA_FILE = 'response_schema.json'
+SCHEMA_FILE = 'events.json'
 with open(SCHEMA_FILE, 'r') as fin:
     SCHEMA = json.load(fin)
 
@@ -34,7 +34,7 @@ else:
 
 @app.route('/')
 def greet():
-    return json.jsonify({'greetings': 'You\'re accessing livelihood API version {}'.format(VERSION)})
+    return send_file('./static/usage.html')
 
 @app.route('/events')
 def show_events():

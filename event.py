@@ -32,7 +32,7 @@ class Event(Base):
     start_time = Column(String)
     end_time = Column(String)
     description = Column(String)
-    update_time = Column(DateTime)
+    update_time = Column(String)
     update_status = Column(String)
 
     # relationships
@@ -53,8 +53,6 @@ class Event(Base):
     def get_field(self, field):
         if field == 'affected_areas':
             return [a.to_dict() for a in self.areas]
-        elif field == 'update_time':
-            return self.update_time.isoformat()
         else:
             return self.__dict__[field]
 

@@ -1,0 +1,87 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>
+            API Documentation - Livelihood Database
+        </title>
+    </head>
+    <body>
+        <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+            <article class="markdown-body entry-content" itemprop="text"><h1><a id="user-content-livelihood-api-v300" class="anchor" href="#livelihood-api-v300" aria-hidden="true"></a>API Documentation - Livelihood Database</h1>
+
+                <h2><a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"></a>Usage</h2><hr>
+                <h3><a id="user-content-get-events" class="anchor" href="#get-events" aria-hidden="true"></a>Get events</h3>
+                <font style="background-color:#D9D9D9">$ curl -X GET &lt;api_url&gt;/events
+                </font>
+                <p>A list of events will be returned in a JSON array of <a href="/events?metadata=1">this schema</a>.</p>
+                <p>There's several parameters for getting more specific results.</p>
+
+                <table border="1" height="50%">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Acceptable Values</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">metadata</font></td>
+                            <td><font style="background-color:#D9D9D9">0</font> or <font style="background-color:#D9D9D9">1</font></td>
+                            <td>If <font style="background-color:#D9D9D9">metadata=1</font>, the response schema will be returned instead of the actual events, and the rest of the parameters will be ignored. Default: <font style="background-color:#D9D9D9">0</font>.</td>
+                            <td><font style="background-color:#D9D9D9">/events?metadata=1</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">type</font></td>
+                            <td><font style="background-color:#D9D9D9">water</font>, <font style="background-color:#D9D9D9">power</font>, <font style="background-color:#D9D9D9">road</font>, and <font style="background-color:#D9D9D9">all</font>. Comma separated.</td>
+                            <td>The type of events you wish to query. Default: <font style="background-color:#D9D9D9">all</font>.</td>
+                            <td><font style="background-color:#D9D9D9">/events?type=water,power</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">after</font></td>
+                            <td>Date in <font style="background-color:#D9D9D9">YYYY-MM-DD</font></td>
+                            <td>Events that ends before this date will be filtered out. Default: current date.</td>
+                            <td><font style="background-color:#D9D9D9">/events?after=2017-06-01</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">before</font></td>
+                            <td>Date in <font style="background-color:#D9D9D9">YYYY-MM-DD</font></td>
+                            <td>If specified, events that starts after this date will be filtered out.</td>
+                            <td><font style="background-color:#D9D9D9">/events?before=2017-06-02</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">city</font></td>
+                            <td>City name</td>
+                            <td>If specified, only the events of the city will be returned.</td>
+                            <td><font style="background-color:#D9D9D9">/events?city=臺北市</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">district</font></td>
+                            <td>District name</td>
+                            <td>If specified, only the events of the district will be returned.</td>
+                            <td><font style="background-color:#D9D9D9">/events?city=臺北市&amp;district=大安區</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">fields</font></td>
+                            <td>Any field name of the event, comma separated.</td>
+                            <td>If specified, only the corresponding fields will be returned. Note that the <font style="background-color:#D9D9D9">id</font> field will always be returned.</td>
+                            <td><font style="background-color:#D9D9D9">/events?fields=type,start_date,end_date</font></td>
+                        </tr>
+                        <tr>
+                            <td><font style="background-color:#D9D9D9">ids</font></td>
+                            <td>Event IDs, comma separated.</td>
+                            <td>Only consider event(s) with specified ID(s).</td>
+                            <td><font style="background-color:#D9D9D9">/events?ids=aaa,bbb</font></td>
+                        </tr></tbody></table>
+
+                        <h3><a id="user-content-get-single-event" class="anchor" href="#get-single-event" aria-hidden="true"></a>Get single event</h3>
+                        <font style="background-color:#D9D9D9">$ curl -X GET &lt;api_url&gt;/events/&lt;event_id&gt;
+                        </font>
+                        <p>An event of the provided ID will be returned. If the ID doesn't match any
+                        event, an empty string will be returned.</p>
+                        <p>The <font style="background-color:#D9D9D9">fields</font> parameter described above is still available.</p>
+            </article>
+        </div>
+    </body>
+</html>
