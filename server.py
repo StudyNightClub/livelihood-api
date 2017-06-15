@@ -68,22 +68,23 @@ def show_events():
     if district:
         query = query.filter(Event.district == district)
 
-    # "after" parameter
-    after = parse_date(request.args.get(EventsParameters.AFTER))
-    if after:
-        query = query.filter(Event.end_date > after)
-
-    # "before" parameter
-    before = parse_date(request.args.get(EventsParameters.BEFORE))
-    if before:
-        query = query.filter(Event.start_date < before)
-
     # "fields" parameter
     fields = get_fields()
 
     result = []
     for e in query:
-        result.append(e.to_dict(fields))
+        selected = True
+        # "after" parameter
+        after = parse_date(request.args.get(EventsParameters.AFTER))
+        if after:
+            selected = selected and parse_date(e.end_date) >= after
+        # "before" parameter
+        before = parse_date(request.args.get(EventsParameters.BEFORE))
+        if before:
+            selected = selected and parse_date(e.start_date) <= before
+
+        if selected:
+            result.append(e.to_dict(fields))
 
     return json.jsonify(result)
 
