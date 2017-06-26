@@ -7,7 +7,7 @@ from flask import Flask, request, json, send_file
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 import dbconnector
-from event import Event, Area, Coordinate
+from dbschema import Event, EventType
 
 app = Flask(__name__)
 VERSION = 'v3.2.0'
@@ -22,15 +22,12 @@ class EventsParameters(object):
     FIELDS = 'fields'
     IDS = 'ids'
 
-SCHEMA_FILE = 'events.json'
+SCHEMA_FILE = 'response_schema.json'
 with open(SCHEMA_FILE, 'r') as fin:
     SCHEMA = json.load(fin)
 
-DB_URL = os.environ.get('LIVELIHOOD_DB')
-if DB_URL:
-    dbconnector.connect_to_db(DB_URL)
-else:
-    dbconnector.connect_to_inmemory_db()
+DB_URL = os.environ['LIVELIHOOD_DB']
+dbconnector.connect_to_db(DB_URL)
 
 @app.route('/')
 def greet():
@@ -45,7 +42,7 @@ def show_events():
     session = dbconnector.Session()
 
     # The base of the query command
-    query = session.query(Event).filter(Event.update_status == 'new')
+    query = session.query(Event).filter(Event.is_active == True)
 
     # "ids" parameter
     ids = request.args.get(EventsParameters.IDS)
@@ -68,23 +65,23 @@ def show_events():
     if district:
         query = query.filter(Event.district == district)
 
+    # "after" parameter
+    after = parse_date(request.args.get(EventsParameters.AFTER))
+    if after:
+        query = query.filter(Event.end_date >= after)
+
+    # "before" parameter
+    before = parse_date(request.args.get(EventsParameters.BEFORE))
+    if before:
+        query = query.filter(Event.start_date <= before)
+
     # "fields" parameter
     fields = get_fields()
 
     result = []
     for e in query:
-        selected = True
-        # "after" parameter
-        after = parse_date(request.args.get(EventsParameters.AFTER))
-        if after:
-            selected = selected and parse_date(e.end_date) >= after
-        # "before" parameter
-        before = parse_date(request.args.get(EventsParameters.BEFORE))
-        if before:
-            selected = selected and parse_date(e.start_date) <= before
-
-        if selected:
-            result.append(e.to_dict(fields))
+        print(e.to_dict(fields))
+        result.append(e.to_dict(fields))
 
     return json.jsonify(result)
 
@@ -120,7 +117,7 @@ def get_fields():
 
 def split_csv(value):
     if value:
-        return [t.lower() for t in value.split(',')]
+        return [EventType[value] for t in value.split(',')]
     else:
         return None
 

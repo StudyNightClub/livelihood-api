@@ -1,4 +1,5 @@
 # encoding: utf-8
+import datetime
 import enum
 from sqlalchemy import Boolean
 from sqlalchemy import Column
@@ -71,7 +72,16 @@ class Event(Base):
             coordinates = [a.to_dict() for a in self.coordinates]
             return [{'shape': shape, 'coordinates': coordinates}]
         else:
-            return self.__dict__[field]
+            value = self.__dict__[field]
+            if type(value) is datetime.datetime:
+                value = value.isoformat(sep=' ')
+            elif type(value) is datetime.date:
+                value = value.isoformat()
+            elif type(value) is datetime.time:
+                value = value.strftime('%H:%M:%S')
+            elif type(value) is EventType:
+                value = value.name
+            return value
 
 
 class Coordinate(Base):
@@ -88,6 +98,6 @@ class Coordinate(Base):
 
     def to_dict(self):
         return {
-                   'wgs84_latitude': self.wgs84_latitude,
-                   'wgs84_longitude': self.wgs84_longitude
+                   'wgs84_latitude': float(self.wgs84_latitude),
+                   'wgs84_longitude': float(self.wgs84_longitude),
                }
