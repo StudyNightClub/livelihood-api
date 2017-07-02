@@ -10,7 +10,7 @@ import dbconnector
 from dbschema import Event, EventType
 
 app = Flask(__name__)
-VERSION = 'v3.2.0'
+VERSION = 'v3.2.1'
 
 class EventsParameters(object):
     METADATA = 'metadata'
@@ -117,7 +117,7 @@ def get_fields():
 
 def split_csv(value):
     if value:
-        return [EventType[value] for t in value.split(',')]
+        return [t.lower() for t in value.split(',')]
     else:
         return None
 
