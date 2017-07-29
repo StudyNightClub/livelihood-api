@@ -27,13 +27,9 @@
                     "type": "string",
                     "description": "The district of this event."
                 },
-                "road": {
-                    "type": "string",
-                    "description": "The road of this event."
-                },
                 "detail_addr": {
                     "type": "string",
-                    "description": "The rest of the address of this event."
+                    "description": "The address of this event."
                 },
                 "start_date": {
                     "type": "string",
