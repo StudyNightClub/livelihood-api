@@ -1,15 +1,16 @@
-# Livelihood API v4.0.0
+# Livelihood API v4.0.1
 
 API server for our livelihood data.
 
 ## Requirements
 
-* Python 3
 * Flask 0.12
 * SqlAlchemy 1.1
+* enum34 1.1 (for python2 only)
+* pymysql 0.7 (if using MySQL as database)
 
 ```
-$ pip3 install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ## Run
